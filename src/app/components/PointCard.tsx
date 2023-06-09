@@ -19,7 +19,7 @@ export const useStyles = createStyles(
       borderRadius: theme.fn.radius(radius),
       transition: "transform 0.3s",
       border: `1px solid ${theme.colors.gray[4]}`,
-      backgroundColor: isSelected ? theme.colors.blue[4] : theme.colors.blue[0],
+      backgroundColor: isSelected ? theme.colors.indigo[6] : theme.colors.blue[3],
       width: "100px",
       height: "150px",
       display: "flex",

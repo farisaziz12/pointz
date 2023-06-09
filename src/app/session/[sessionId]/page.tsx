@@ -6,7 +6,6 @@ import { notifications } from "@mantine/notifications";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteStoryPoint, retrieveSessionData, sendStoryPoints } from "@/app/utils";
 import { useAppContext, usePageUnload } from "@/app/hooks";
-import { usePageLeave } from "@mantine/hooks";
 
 export default function Session({ params }: any) {
   const { sessionId } = params;
@@ -80,7 +79,7 @@ export default function Session({ params }: any) {
         {isLoading ? (
           <Text>Loading...</Text>
         ) : (
-          Object.entries(data)
+          Object.entries(data || {})
             .sort(([usernameA], [usernameB]) => usernameA.localeCompare(usernameB))
             .map(([key, value]) => {
               const isMe = username === key;
