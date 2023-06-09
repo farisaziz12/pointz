@@ -1,25 +1,25 @@
 import {
+  createStyles,
+  MantineNumberSize,
   Box,
   DefaultProps,
-  MantineNumberSize,
   Selectors,
-  createStyles
 } from "@mantine/core";
 import React from "react";
-
 // Create styles for the PointCard
 export interface PointCardStylesParams {
   radius?: MantineNumberSize;
+  isSelected?: boolean;
 }
 
 export const useStyles = createStyles(
-  (theme, { radius }: PointCardStylesParams) => ({
+  (theme, { radius, isSelected }: PointCardStylesParams) => ({
     root: {
       cursor: "pointer",
       borderRadius: theme.fn.radius(radius),
       transition: "transform 0.3s",
-      boxShadow: "3px 3px 10px 3px #eaeaea",
-      backgroundColor: theme.colors.blue[3],
+      border: `1px solid ${theme.colors.gray[4]}`,
+      backgroundColor: isSelected ? theme.colors.indigo[6] : theme.colors.blue[3],
       width: "100px",
       height: "150px",
       display: "flex",
@@ -43,24 +43,28 @@ type PointCardStylesNames = Selectors<typeof useStyles>;
 
 interface PointCardProps
   extends DefaultProps<PointCardStylesNames, PointCardStylesParams> {
-  storyPoint: string;
-  onSelect: (point: string) => void;
+  storyPoint: number;
+  isSelected?: boolean;
+  onSelect?: (point: number) => void;
 }
 
 export const PointCard: React.FC<PointCardProps> = ({
   storyPoint,
   onSelect,
+  isSelected = false,
   ...others
 }) => {
-  const { classes, cx } = useStyles({}, { name: "PointCard", ...others });
+  const { classes, cx } = useStyles({ isSelected }, { name: "PointCard", ...others });
 
   const handleClick = () => {
+    if (!onSelect) return;
+
     onSelect(storyPoint);
   };
 
   return (
     <Box className={cx(classes.root)} onClick={handleClick} {...others}>
-      <div className={classes.point}>{storyPoint}</div>
+      <div className={classes.point}>{storyPoint ? storyPoint : "?"}</div>
     </Box>
   );
 };
